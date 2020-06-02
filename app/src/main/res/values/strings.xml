@@ -1,14 +1,24 @@
 <resources>
     <string name="app_name">CountriesBorders</string>
+
+    <!--    General-->
     <string name="countries_general_error_message">An error has occurred - please retry.</string>
-    <string name="country_list_menu_order_by_country_name_ascending">Order By Country Name Ascending</string>
-    <string name="country_list_menu_order_by_area_ascending">Order By Area Ascending</string>
-    <string name="fragment_country_borders_borders_with">Borders with:</string>
+    
+    <!--    CountryViewHolder Strings-->
     <string name="country_view_holder_native_name">Native name - </string>
     <string name="country_view_holder_country_name">Country name - </string>
     <string name="country_view_holder_country_area">Country area - </string>
+
+    <!--    CountryListFragment Strings-->
     <string name="countries_list_fragment_selected_country">selectedCountry</string>
+
+    <!--    Menu Strings-->
     <string name="country_list_menu_order_by_country_name_descending">Order By Country Name Descending</string>
     <string name="country_list_menu_order_by_area_descending">Order By Area Descending</string>
+    <string name="country_list_menu_order_by_country_name_ascending">Order By Country Name Ascending</string>
+    <string name="country_list_menu_order_by_area_ascending">Order By Area Ascending</string>
+
+    <!--    CountryBorderFragment Strings-->
     <string name="country_border_fragment_country_does_not_have_borders">Country does not have a border with any other country.</string>
+    <string name="fragment_country_borders_borders_with">Borders with:</string>
 </resources>
