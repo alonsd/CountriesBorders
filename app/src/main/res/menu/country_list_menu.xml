@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/country_list_menu_order_by_country_name_ascending"
+        android:title="@string/country_list_menu_order_by_country_name_ascending"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/country_list_menu_order_by_country_name_descending"
+        android:title="@string/country_list_menu_order_by_country_name_descending"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/country_list_menu_order_by_area_ascending"
+        android:title="@string/country_list_menu_order_by_area_ascending"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/country_list_menu_order_by_area_descending"
+        android:title="@string/country_list_menu_order_by_area_descending"
+        app:showAsAction="collapseActionView" />
+
+</menu>
