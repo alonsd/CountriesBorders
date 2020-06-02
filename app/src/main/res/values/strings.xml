@@ -3,7 +3,7 @@
 
     <!--    General-->
     <string name="countries_general_error_message">An error has occurred - please retry.</string>
-    
+
     <!--    CountryViewHolder Strings-->
     <string name="country_view_holder_native_name">Native name - </string>
     <string name="country_view_holder_country_name">Country name - </string>
