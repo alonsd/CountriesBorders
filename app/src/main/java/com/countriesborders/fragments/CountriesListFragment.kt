@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.countriesborders.R
@@ -21,6 +22,7 @@ import com.countriesborders.adapter.CountryViewHolder
 import com.countriesborders.database.entities.CountryEntity
 import com.countriesborders.database.repository.CountriesRepository
 import com.countriesborders.viewmodel.CountriesListViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import kotlinx.android.synthetic.main.fragment_countries_list.fragment_countries_list_countries_recyclerview as countriesRecyclerview
 import kotlinx.android.synthetic.main.fragment_countries_list.fragment_countries_list_toolbar as toolbar
 
@@ -29,8 +31,9 @@ class CountriesListFragment : Fragment(R.layout.fragment_countries_list) {
 
     private lateinit var countriesViewModel: CountriesListViewModel
     private lateinit var countriesAdapter: CountriesListAdapter
-    private var countriesList = mutableListOf<CountryEntity>()
+    private var countriesList: PagedList<CountryEntity>? = null
     private lateinit var navController: NavController
+    private val testViewModel by viewModel<CountriesListViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,26 +51,29 @@ class CountriesListFragment : Fragment(R.layout.fragment_countries_list) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (countriesList.isEmpty())
-            return super.onOptionsItemSelected(item)
+        var comparator: Comparator<CountryEntity>? = null
         when (item.itemId) {
             R.id.country_list_menu_order_by_country_name_ascending -> {
-                countriesList.sortBy { it.nativeName }
+                comparator = compareBy { country -> country.nativeName }
+
             }
 
             R.id.country_list_menu_order_by_country_name_descending -> {
-                countriesList.sortByDescending { it.nativeName }
+                comparator = compareByDescending { country -> country.nativeName }
             }
 
             R.id.country_list_menu_order_by_area_ascending -> {
-                countriesList.sortBy { it.area }
+                comparator = compareBy { country -> country.area }
             }
 
             R.id.country_list_menu_order_by_area_descending -> {
-                countriesList.sortByDescending { it.area }
+                comparator = compareByDescending { country -> country.area }
             }
         }
-        countriesAdapter.notifyDataSetChanged()
+        countriesViewModel.getAllCountries(comparator).observe(this, Observer { list ->
+            countriesAdapter.submitList(list)
+            countriesAdapter.notifyDataSetChanged()
+        })
         return super.onOptionsItemSelected(item)
     }
 
@@ -81,7 +87,7 @@ class CountriesListFragment : Fragment(R.layout.fragment_countries_list) {
     }
 
     private fun initData() {
-        countriesAdapter = CountriesListAdapter(countriesList, object : CountryViewHolder.OnCountryClickListener {
+        countriesAdapter = CountriesListAdapter(object : CountryViewHolder.OnCountryClickListener {
             override fun onCountryClicked(countryName: String) {
                 navController.navigate(
                     R.id.action_countriesListFragment_to_countryBordersFragment,
@@ -91,10 +97,12 @@ class CountriesListFragment : Fragment(R.layout.fragment_countries_list) {
         })
         countriesRecyclerview.adapter = countriesAdapter
         countriesRecyclerview.setHasFixedSize(true)
+        countriesRecyclerview.itemAnimator = null
         countriesRecyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        countriesViewModel.getAllCountries().observe(requireActivity(), Observer { countryList ->
-            countriesList.addAll(countryList)
-            countriesAdapter.notifyDataSetChanged()
+        countriesViewModel.getAllCountries(null).observe(requireActivity(), Observer { list ->
+            countriesAdapter.submitList(list)
+            countriesList = list
         })
+
     }
 }

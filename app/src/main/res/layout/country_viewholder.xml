@@ -7,11 +7,11 @@
     android:layout_marginStart="14dp"
     android:layout_marginTop="15dp"
     android:layout_marginEnd="14dp"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:elevation="10dp"
     android:background="@color/white"
-    android:orientation="horizontal">
+    android:elevation="10dp"
+    android:orientation="horizontal"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,6 +22,8 @@
             android:id="@+id/country_viewholder_native_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxEms="15"
+            android:breakStrategy="simple"
             android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="Country native name" />
@@ -30,6 +32,8 @@
             android:id="@+id/country_viewholder_country_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:breakStrategy="simple"
+            android:maxEms="15"
             android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="Country name" />
@@ -49,5 +53,12 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/country_viewholder_country_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        tools:src="@mipmap/ic_launcher" />
+
 
 </LinearLayout>
