@@ -3,6 +3,7 @@ package com.countriesborders.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
+import androidx.paging.PagingData
 import com.countriesborders.database.entities.CountryBorderEntity
 import com.countriesborders.database.entities.CountryEntity
 import com.countriesborders.database.repository.CountriesRepository
@@ -16,7 +17,7 @@ class CountriesListViewModel : ViewModel() {
         countriesRepository.fetchAllCountries(callback)
     }
 
-    fun getAllCountries(comparator: Comparator<in CountryEntity>?): LiveData<PagedList<CountryEntity>> {
+    fun getAllCountries(comparator: Comparator<in CountryEntity>?): LiveData<PagingData<CountryEntity>> {
         return countriesRepository.getAllCountries(comparator)
     }
 
