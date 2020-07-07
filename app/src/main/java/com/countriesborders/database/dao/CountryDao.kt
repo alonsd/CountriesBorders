@@ -1,7 +1,6 @@
 package com.countriesborders.database.dao
 
-import androidx.paging.Pager
-import androidx.paging.PagingSource
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,9 +15,9 @@ interface CountryDao {
     suspend fun insert(entity: CountryEntity)
 
     @Query("select * from $countriesTable")
-    fun getAllCountries(): Pager<Int, CountryEntity>
+    fun getAllCountries(): LiveData<List<CountryEntity>>
 
     @Query("select * from $countriesTable where cioc in (:ciocList)")
-    fun getCountryByCioc(ciocList: List<String>): Pager<Int, CountryEntity>
+    fun getCountryByCioc(ciocList: List<String>): LiveData<List<CountryEntity>>
 
 }

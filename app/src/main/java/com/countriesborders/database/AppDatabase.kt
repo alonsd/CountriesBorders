@@ -19,7 +19,6 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
-
         private var databaseInstance: AppDatabase? = null
 
         @Synchronized

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.countriesborders.R
 import com.countriesborders.adapter.CountriesListAdapter
 import com.countriesborders.database.entities.CountryEntity
@@ -20,9 +19,11 @@ import kotlinx.android.synthetic.main.fragment_country_borders.fragment_country_
 
 class CountryBordersFragment : Fragment(R.layout.fragment_country_borders) {
 
-    private lateinit var selectedCountry: String
+    private lateinit var selectedCountry : String
     private lateinit var countriesViewModel: CountriesListViewModel
-    private lateinit var countriesAdapter: CountriesListAdapter
+    private lateinit var countriesAdapter : CountriesListAdapter
+    private var countriesList = mutableListOf<CountryEntity>()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,23 +39,23 @@ class CountryBordersFragment : Fragment(R.layout.fragment_country_borders) {
     }
 
     private fun initData() {
-        countriesAdapter = CountriesListAdapter(null)
-        countriesRecyclerView.adapter = countriesAdapter
+        countriesAdapter = CountriesListAdapter(countriesList, null)
         countriesRecyclerView.setHasFixedSize(true)
-        countriesRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        countriesRecyclerView.layoutManager = LinearLayoutManager(context)
+        countriesRecyclerView.adapter = countriesAdapter
 
         arguments?.let {
             selectedCountry = it.getString(getString(R.string.countries_list_fragment_selected_country))!!
         }
         countryName.text = selectedCountry
-        countriesViewModel.getCountryBorders(selectedCountry).observeOnce(requireActivity(), Observer { countryBorder ->
+        countriesViewModel.getCountryBorders(selectedCountry).observeOnce(requireActivity(), Observer {countryBorder ->
             if (countryBorder.neighborCountries.isEmpty()) {
                 bordersWith.text = getString(R.string.country_border_fragment_country_does_not_have_borders)
                 return@Observer
             }
-            countriesViewModel.getCountryByCioc(countryBorder.neighborCountries).observeOnce(requireActivity(), Observer { countryEntityList ->
-                countriesAdapter.submitList(countryEntityList)
-
+            countriesViewModel.getCountryByCioc(countryBorder.neighborCountries).observeOnce(requireActivity(), Observer {countryEntityList ->
+                countriesList.addAll(countryEntityList)
+                countriesAdapter.notifyDataSetChanged()
             })
         })
     }
